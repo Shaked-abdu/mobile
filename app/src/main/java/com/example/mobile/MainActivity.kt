@@ -8,7 +8,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val textView = TextView(this)
-        textView.text = "hello"
+        textView.text = "Hello"  // Corrected line
 
         setContentView(textView)
     }
