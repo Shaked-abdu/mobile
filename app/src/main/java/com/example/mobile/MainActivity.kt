@@ -13,6 +13,7 @@ import android.widget.ListView
 import android.widget.TextView
 import com.example.mobile.Model.Model
 import com.example.mobile.Model.Post
+import com.example.mobile.Modules.AddPost.AddPostActivity
 
 class MainActivity : AppCompatActivity() {
     var postsListView: ListView? = null
