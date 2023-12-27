@@ -13,7 +13,7 @@
         android:theme="@style/Theme.Mobile"
         tools:targetApi="31">
         <activity
-            android:name=".PostsRecyclerViewActivity"
+            android:name=".MainActivityFragment"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,13 +21,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity
+            android:name=".PostsRecyclerViewActivity"
+            android:exported="false" />
         <activity
             android:name=".AddPostActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false"/>
+            android:exported="false" />
     </application>
 
 </manifest>
