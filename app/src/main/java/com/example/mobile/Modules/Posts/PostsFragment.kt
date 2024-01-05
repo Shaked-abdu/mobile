@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobile.Model.Model
@@ -36,6 +38,11 @@ class PostsFragment : Fragment() {
         adapter.listener = object : PostsRecyclerViewActivity.OnItemClickListener {
             override fun onItemClick(post: Post?, position: Int) {
                 Log.i("TAG", "Item clicked: $position")
+                val post = posts?.get(position)
+                post?.let {
+                    val action = PostsFragmentDirections.actionPostsFragmentToBlueFragment(it.title)
+                    Navigation.findNavController(view).navigate(action)
+                }
             }
 
             override fun onPostClicked(post: Post?) {
@@ -44,7 +51,9 @@ class PostsFragment : Fragment() {
         }
 
         postsRecyclerView?.adapter = adapter
-
+        val addPostButton: ImageButton = view.findViewById(R.id.ibtnAddPost)
+        val action = Navigation.createNavigateOnClickListener(PostsFragmentDirections.actionGlobalAddPostFragment())
+        addPostButton.setOnClickListener(action)
         return view
     }
 }
