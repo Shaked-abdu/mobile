@@ -10,10 +10,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.navigation.Navigation
+import com.example.mobile.Model.Model
+import com.example.mobile.Model.Post
 import com.example.mobile.R
 
 
 class AddPostFragment : Fragment() {
+    private var headerTextField: EditText? = null
     private var descriptionTextField: EditText? = null
     private var saveButton: Button? = null
     private var cancelButton: Button? = null
@@ -33,12 +36,22 @@ class AddPostFragment : Fragment() {
     }
 
     private fun setupUI(view: View) {
+        headerTextField = view.findViewById(R.id.etHeader)
         descriptionTextField = view.findViewById(R.id.etDescription)
         saveButton = view.findViewById(R.id.btnSavePost)
         cancelButton = view.findViewById(R.id.btnCancelPost)
 
         cancelButton?.setOnClickListener {
         Navigation.findNavController(it).popBackStack(R.id.postsFragment, false)
+        }
+
+        saveButton?.setOnClickListener {
+            val header = headerTextField?.text.toString()
+            val description = descriptionTextField?.text.toString()
+            val post = Post( header, description)
+            Model.instance.addPost(post){
+                Navigation.findNavController(it).popBackStack(R.id.postsFragment, false)
+            }
         }
     }
 

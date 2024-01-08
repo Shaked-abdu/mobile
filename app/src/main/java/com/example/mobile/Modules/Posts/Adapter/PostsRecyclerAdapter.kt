@@ -7,7 +7,7 @@ import com.example.mobile.Model.Post
 import com.example.mobile.Modules.Posts.PostsRecyclerViewActivity
 import com.example.mobile.R
 
-class PostsRecyclerAdapter(var posts: MutableList<Post>?) :
+class PostsRecyclerAdapter(var posts: List<Post>?) :
     RecyclerView.Adapter<PostsViewHolder>() {
 
     var listener: PostsRecyclerViewActivity.OnItemClickListener? = null

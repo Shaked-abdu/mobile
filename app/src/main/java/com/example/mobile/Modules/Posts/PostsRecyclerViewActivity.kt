@@ -16,21 +16,25 @@ import com.example.mobile.R
 
 class PostsRecyclerViewActivity : AppCompatActivity() {
     var postsRecyclerView: RecyclerView? = null
-    var posts: MutableList<Post>? = null
+    var posts: List<Post>? = null
+    var adapter: PostsRecyclerAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_posts_recycler_view)
+        adapter = PostsRecyclerAdapter(posts)
 
-        posts = Model.instance.posts
+        Model.instance.getAllPosts { posts ->
+            this.posts = posts
+            adapter?.posts = posts
+            adapter?.notifyDataSetChanged()
+        }
         postsRecyclerView = findViewById(R.id.rvPostsRecyclerList)
         postsRecyclerView?.setHasFixedSize(true)
 
         postsRecyclerView?.layoutManager = LinearLayoutManager(this)
-//        postsRecyclerView?.adapter = PostsRecyclerAdapter()
 
-        val adapter = PostsRecyclerAdapter(posts)
-        adapter.listener = object : OnItemClickListener {
+        adapter?.listener = object : OnItemClickListener {
             override fun onItemClick(post: Post?, position: Int) {
                 Log.i("TAG", "Item clicked: $position")
             }
@@ -47,5 +51,14 @@ class PostsRecyclerViewActivity : AppCompatActivity() {
     interface OnItemClickListener {
         fun onItemClick(post: Post?, position: Int)
         fun onPostClicked(post: Post?)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Model.instance.getAllPosts { posts ->
+            this.posts = posts
+            adapter?.posts = posts
+            adapter?.notifyDataSetChanged()
+        }
     }
 }

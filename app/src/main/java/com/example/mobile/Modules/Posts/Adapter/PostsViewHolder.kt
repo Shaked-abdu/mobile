@@ -11,7 +11,7 @@ import com.example.mobile.R
 class PostsViewHolder(
     val itemView: View,
     listener: PostsRecyclerViewActivity.OnItemClickListener?,
-    posts: MutableList<Post>?
+    posts: List<Post>?
 ) :
     RecyclerView.ViewHolder(itemView) {
 
