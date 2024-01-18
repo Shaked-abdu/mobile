@@ -13,15 +13,19 @@ import com.example.mobile.Model.Model
 import com.example.mobile.Model.Post
 import com.example.mobile.Modules.Posts.Adapter.PostsRecyclerAdapter
 import com.example.mobile.R
+import com.example.mobile.databinding.ActivityPostsRecyclerViewBinding
 
 class PostsRecyclerViewActivity : AppCompatActivity() {
     var postsRecyclerView: RecyclerView? = null
     var posts: List<Post>? = null
     var adapter: PostsRecyclerAdapter? = null
 
+    private lateinit var binding: ActivityPostsRecyclerViewBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_posts_recycler_view)
+
+        binding = ActivityPostsRecyclerViewBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         adapter = PostsRecyclerAdapter(posts)
 
         Model.instance.getAllPosts { posts ->
@@ -29,7 +33,7 @@ class PostsRecyclerViewActivity : AppCompatActivity() {
             adapter?.posts = posts
             adapter?.notifyDataSetChanged()
         }
-        postsRecyclerView = findViewById(R.id.rvPostsRecyclerList)
+        postsRecyclerView = binding.rvPostsRecyclerList
         postsRecyclerView?.setHasFixedSize(true)
 
         postsRecyclerView?.layoutManager = LinearLayoutManager(this)

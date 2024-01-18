@@ -2,12 +2,15 @@ package com.example.mobile
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,6 +27,8 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigationView: BottomNavigationView =
             findViewById(R.id.mainActiviryBottomNavigationView)
         navController?.let { NavigationUI.setupWithNavController(bottomNavigationView, it) }
+
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

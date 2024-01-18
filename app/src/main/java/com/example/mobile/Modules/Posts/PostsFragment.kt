@@ -15,6 +15,7 @@ import com.example.mobile.Model.Model
 import com.example.mobile.Model.Post
 import com.example.mobile.Modules.Posts.Adapter.PostsRecyclerAdapter
 import com.example.mobile.R
+import com.example.mobile.databinding.FragmentPostsBinding
 
 class PostsFragment : Fragment() {
     var postsRecyclerView: RecyclerView? = null
@@ -22,13 +23,16 @@ class PostsFragment : Fragment() {
     var adapter: PostsRecyclerAdapter? = null
     var progressBar: ProgressBar? = null
 
+    private var _binding: FragmentPostsBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_posts, container, false)
-        progressBar = view.findViewById(R.id.progressBar)
+        _binding = FragmentPostsBinding.inflate(inflater, container, false)
+        val view = binding.root
+        progressBar = binding.progressBar
         progressBar?.visibility = View.VISIBLE
         adapter = PostsRecyclerAdapter(posts)
 
@@ -38,7 +42,7 @@ class PostsFragment : Fragment() {
             adapter?.notifyDataSetChanged()
             progressBar?.visibility = View.GONE
         }
-        postsRecyclerView = view.findViewById(R.id.rvPostsFragmentList)
+        postsRecyclerView = binding.rvPostsFragmentList
         postsRecyclerView?.setHasFixedSize(true)
 
         postsRecyclerView?.layoutManager = LinearLayoutManager(context)
@@ -75,5 +79,10 @@ class PostsFragment : Fragment() {
             adapter?.notifyDataSetChanged()
             progressBar?.visibility = View.GONE
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

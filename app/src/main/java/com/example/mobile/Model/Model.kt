@@ -1,8 +1,11 @@
 package com.example.mobile.Model
 
 import android.os.Looper
+import android.util.Log
 import androidx.core.os.HandlerCompat
 import com.example.mobile.dao.AppLocalDatabase
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import java.util.concurrent.Executors
 
 class Model private constructor() {
@@ -10,6 +13,7 @@ class Model private constructor() {
     private val database = AppLocalDatabase.db
     private var executor = Executors.newSingleThreadExecutor()
     private var mainHelper = HandlerCompat.createAsync(Looper.getMainLooper())
+    private val firebaseModel = FirebaseModel()
 
     companion object {
         val instance: Model = Model()
@@ -20,22 +24,23 @@ class Model private constructor() {
     }
 
     fun getAllPosts(callback: (List<Post>) -> Unit) {
-        executor.execute {
-            Thread.sleep(5000)
-            val posts = database.postDao().getAll()
-            mainHelper.post {
-                callback(posts)
-            }
-        }
+        firebaseModel.getAllPosts(callback)
+//        executor.execute {
+//            Thread.sleep(5000)
+//            val posts = database.postDao().getAll()
+//            mainHelper.post {
+//                callback(posts)
+//            }
+//        }
     }
 
     fun addPost(post: Post, callback: () -> Unit) {
-        executor.execute {
-            database.postDao().insert(post)
-            mainHelper.post {
-                callback()
-            }
-        }
+        firebaseModel.addPost(post, callback)
+//        executor.execute {
+//            database.postDao().insert(post)
+//            mainHelper.post {
+//                callback()
+//            }
+//        }
     }
 }
-
