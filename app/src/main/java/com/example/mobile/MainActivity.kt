@@ -1,5 +1,6 @@
 package com.example.mobile
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,9 @@ import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.auth.FirebaseAuth
+
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,6 +39,11 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             android.R.id.home -> {
                 navController?.navigateUp()
+                true
+            }
+            R.id.logout -> {
+                FirebaseAuth.getInstance().signOut()
+                startActivity(Intent(this@MainActivity, LoginActivity::class.java))
                 true
             }
 
