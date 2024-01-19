@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
             R.id.logout -> {
                 FirebaseAuth.getInstance().signOut()
                 startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+                finish()
                 true
             }
 
