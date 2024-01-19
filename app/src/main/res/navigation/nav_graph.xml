@@ -33,7 +33,11 @@
         android:id="@+id/addPostFragment"
         android:name="com.example.mobile.Modules.AddPost.AddPostFragment"
         android:label="Add post"
-        tools:layout="@layout/fragment_add_post" />
+        tools:layout="@layout/fragment_add_post">
+        <argument
+            android:name="EMAIL"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.mobile.ProfileFragment"
