@@ -135,8 +135,6 @@
         android:id="@+id/imageCardView"
         android:layout_width="0dp"
         android:layout_height="280dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="32dp"
         app:cardCornerRadius="16dp"
         app:cardElevation="16dp"
         app:cardUseCompatPadding="true"
@@ -144,7 +142,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tilDescription">
+        app:layout_constraintTop_toBottomOf="@+id/tilDescription">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

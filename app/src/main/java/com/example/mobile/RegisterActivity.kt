@@ -24,6 +24,7 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
     private val storageModel = StorageModel("profile_images")
     private var imageUri: Uri? = null
+    private var imageUploaded = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +56,7 @@ class RegisterActivity : AppCompatActivity() {
                     "Please enter email.",
                     Toast.LENGTH_SHORT
                 ).show()
+                binding.progressBar.visibility = View.GONE
             }
 
             TextUtils.isEmpty(password.trim { it <= ' ' }) -> {
@@ -63,6 +65,16 @@ class RegisterActivity : AppCompatActivity() {
                     "Please enter password.",
                     Toast.LENGTH_SHORT
                 ).show()
+                binding.progressBar.visibility = View.GONE
+            }
+
+            imageUploaded.not() -> {
+                Toast.makeText(
+                    this@RegisterActivity,
+                    "Please upload an image.",
+                    Toast.LENGTH_SHORT
+                ).show()
+                binding.progressBar.visibility = View.GONE
             }
 
             else -> {
@@ -105,6 +117,7 @@ class RegisterActivity : AppCompatActivity() {
     private val resultLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
         imageUri = it
         binding.ivRegisterUploadImage.setImageURI(it)
+        imageUploaded = true
     }
 
     private fun saveUser(email: String, imageUri: String) {

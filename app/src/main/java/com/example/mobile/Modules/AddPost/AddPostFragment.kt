@@ -1,5 +1,6 @@
 package com.example.mobile.Modules.AddPost
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import androidx.navigation.Navigation
 import com.example.mobile.BlueFragmentArgs
 import com.example.mobile.Model.Model
 import com.example.mobile.Model.Post
+import com.example.mobile.Model.StorageModel
 import com.example.mobile.R
 import com.example.mobile.databinding.FragmentAddPostBinding
 import com.example.mobile.databinding.FragmentPostsBinding
@@ -24,12 +26,16 @@ import com.example.mobile.databinding.FragmentPostsBinding
 class AddPostFragment : Fragment() {
     private var headerTextField: EditText? = null
     private var descriptionTextField: EditText? = null
-//    private var  ivUploadImage: ImageView? = null
+    private var imageUploaded = false
+
+
+    //    private var  ivUploadImage: ImageView? = null
     private var saveButton: Button? = null
     private var cancelButton: Button? = null
     private var email: String? = null
-    private var imageUri: String? = null
-    private  var _binding: FragmentAddPostBinding? = null
+    private var imageUri: Uri? = null
+    private var _binding: FragmentAddPostBinding? = null
+    private val storageModel = StorageModel("posts_images")
 
 
     private val binding get() = _binding!!
@@ -64,16 +70,33 @@ class AddPostFragment : Fragment() {
         }
 
         saveButton?.setOnClickListener {
-            val header = headerTextField?.text.toString()
-            val description = descriptionTextField?.text.toString()
-            if (header.isEmpty() || description.isEmpty()) {
-                Toast.makeText(context, "Please fill all fields", Toast.LENGTH_SHORT).show()
+            if (!imageUploaded) {
+                Toast.makeText(
+                    context,
+                    "Please upload an image.",
+                    Toast.LENGTH_SHORT
+                ).show()
                 return@setOnClickListener
-            }
-            val post = Post(header, description, email?:"", imageUri?:"")
-            Model.instance.addPost(post) {
-                Toast.makeText(context, "Post saved successfully", Toast.LENGTH_SHORT).show()
-                Navigation.findNavController(it).popBackStack(R.id.postsFragment, false)
+            } else {
+                val header = headerTextField?.text.toString()
+                val description = descriptionTextField?.text.toString()
+                if (header.isEmpty() || description.isEmpty()) {
+                    Toast.makeText(context, "Please fill all fields", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                storageModel.uploadFile(imageUri!!,
+                    onComplete = { uri ->
+                        savePost(header, description, uri)
+                    },
+                    onFailure = { message ->
+
+                        Toast.makeText(
+                            context,
+                            message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                )
             }
         }
     }
@@ -88,9 +111,19 @@ class AddPostFragment : Fragment() {
     }
 
     private val resultLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
-        imageUri = it.toString()
+        imageUri = it
         binding.ivAddPostUploadImage.setImageURI(it)
+        imageUploaded = true
+
     }
 
+    private fun savePost(title: String, description: String, uri: String) {
+        val post = Post(title, description, email ?: "", uri)
+        Model.instance.addPost(post) {
+            Toast.makeText(context, "Post saved successfully", Toast.LENGTH_SHORT).show()
+            Navigation.findNavController(binding.root)
+                .popBackStack(R.id.postsFragment, false) // binding.root is the view
+        }
+    }
 
 }
