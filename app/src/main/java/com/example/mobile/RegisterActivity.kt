@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.Navigation
 import com.example.mobile.Model.Model
+import com.example.mobile.Model.StorageModel
 import com.example.mobile.Model.User
 import com.example.mobile.databinding.ActivityRegisterBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -21,7 +22,7 @@ import com.google.firebase.storage.StorageReference
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
-    private lateinit var storageRef: StorageReference
+    private val storageModel = StorageModel("profile_images")
     private var imageUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +30,6 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        storageRef = FirebaseStorage.getInstance().reference.child("profile_images")
         val registerButton = binding.btnRegister
         val tvLogin = binding.tvLogin
         val ivUploadImage = binding.ivRegisterUploadImage
@@ -69,25 +69,19 @@ class RegisterActivity : AppCompatActivity() {
                 FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
-                            storageRef = storageRef.child(System.currentTimeMillis().toString())
-                            imageUri?.let {
-                                storageRef.putFile(it).addOnCompleteListener() { task ->
-                                    if (task.isSuccessful) {
+                            storageModel.uploadFile(imageUri!!,
+                                onComplete = { uri ->
+                                    saveUser(email, uri)
+                                },
+                                onFailure = { message ->
 
-                                        storageRef.downloadUrl.addOnSuccessListener { uri ->
-
-                                            saveUser(email, uri.toString())
-                                        }
-                                    } else {
-                                        Toast.makeText(
-                                            this@RegisterActivity,
-                                            task.exception?.message,
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    }
+                                    Toast.makeText(
+                                        this@RegisterActivity,
+                                        message,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
-                            }
-
+                            )
                         } else {
 
                             binding.progressBar.visibility = View.GONE
