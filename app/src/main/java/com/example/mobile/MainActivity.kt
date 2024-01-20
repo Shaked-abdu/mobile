@@ -1,5 +1,6 @@
 package com.example.mobile
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,26 +11,29 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.example.mobile.Modules.Posts.PostsFragmentDirections
+import com.example.mobile.databinding.ActivityMainBinding
+import com.example.mobile.databinding.ActivityRegisterBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.auth.FirebaseAuth
 
 
 class MainActivity : AppCompatActivity() {
-
+    private lateinit var binding: ActivityMainBinding
     private var navController: NavController? = null
     private var email: String? = null
+
     private var bottomNavigationView: BottomNavigationView? = null
-    private val bundle = Bundle()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        email = FirebaseAuth.getInstance().currentUser?.email
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+//        email = intent.getStringExtra("user_email")
+//        email = FirebaseAuth.getInstance().currentUser?.email
         val navHostFragment: NavHostFragment? =
             supportFragmentManager.findFragmentById(R.id.mainNavHost) as? NavHostFragment
 
-        bottomNavigationView =
-            findViewById(R.id.mainActiviryBottomNavigationView)
+        bottomNavigationView = binding.mainActiviryBottomNavigationView
 
         navController = navHostFragment?.navController
         navController?.let { NavigationUI.setupActionBarWithNavController(this, it) }
@@ -46,6 +50,10 @@ class MainActivity : AppCompatActivity() {
 
             R.id.logout -> {
                 FirebaseAuth.getInstance().signOut()
+                val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+                val editor = sharedPreferences.edit()
+                editor.remove("userEmail")
+                editor.apply()
                 startActivity(Intent(this@MainActivity, LoginActivity::class.java))
                 finish()
                 true

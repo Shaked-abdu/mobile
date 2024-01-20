@@ -1,5 +1,6 @@
 package com.example.mobile
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -25,6 +26,17 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
         }
         loginButton.setOnClickListener(::login)
+
+        var userEmail = checkIfUserIsSignedIn()
+        if (userEmail != "") {
+            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+            intent.putExtra(
+                "user_email",
+                userEmail
+            )
+            startActivity(intent)
+            finish()
+        }
 
 
     }
@@ -54,7 +66,7 @@ class LoginActivity : AppCompatActivity() {
                     .addOnCompleteListener { task ->
 
                         if (task.isSuccessful) {
-
+                            saveUserIdInSharedPreferences(email)
                             Toast.makeText(
                                 this@LoginActivity,
                                 "You are logged in successfully.",
@@ -82,5 +94,19 @@ class LoginActivity : AppCompatActivity() {
                     }
             }
         }
+
+    }
+
+    fun saveUserIdInSharedPreferences(email: String) {
+        val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("userEmail", email)
+        editor.apply()
+    }
+
+    fun checkIfUserIsSignedIn(): String {
+        val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val userEmail = sharedPreferences.getString("userEmail", null)
+        return userEmail ?: ""
     }
 }
