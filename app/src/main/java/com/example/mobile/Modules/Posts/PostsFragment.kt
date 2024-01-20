@@ -36,13 +36,6 @@ class PostsFragment : Fragment() {
         progressBar?.visibility = View.VISIBLE
         adapter = PostsRecyclerAdapter(posts)
 
-//        val email = arguments?.getString("EMAIL")
-//        email?.let {
-//            Log.i("TAG", "Email: $it")
-//            val action = PostsFragmentDirections.actionPostsFragmentToAddPostFragment(it)
-////            Navigation.findNavController(view).navigate(action)
-//        }
-
         Model.instance.getAllPosts { posts ->
             this.posts = posts
             adapter?.posts = posts
@@ -64,7 +57,6 @@ class PostsFragment : Fragment() {
                     Navigation.findNavController(view).navigate(action)
                 }
             }
-//            val email = arguments?.let { PostsFragmentArgs.fromBundle(it).EMAIL }
 
 
             override fun onPostClicked(post: Post?) {
@@ -75,12 +67,6 @@ class PostsFragment : Fragment() {
         }
 
         postsRecyclerView?.adapter = adapter
-//        val addPostButton: ImageButton = view.findViewById(R.id.ibtnAddPost)
-//        val action =
-//            Navigation.createNavigateOnClickListener(PostsFragmentDirections.actionGlobalAddPostFragment())
-//        addPostButton.setOnClickListener(action)
-
-
         return view
     }
 

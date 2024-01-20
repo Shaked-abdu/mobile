@@ -60,12 +60,6 @@ class LoginActivity : AppCompatActivity() {
                                 "You are logged in successfully.",
                                 Toast.LENGTH_SHORT
                             ).show()
-
-                            /**
-                             * Here the new user registered is automatically signed-in so we just sign-out the user from firebase
-                             * and send him to Main Screen with user id and email that user have used for registration.
-                             */
-
                             val intent =
                                 Intent(this@LoginActivity, MainActivity::class.java)
                             intent.flags =
@@ -79,7 +73,6 @@ class LoginActivity : AppCompatActivity() {
                             finish()
                         } else {
 
-                            // If the login is not successful then show error message.
                             Toast.makeText(
                                 this@LoginActivity,
                                 task.exception!!.message.toString(),
@@ -90,5 +83,4 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
-    // END
 }

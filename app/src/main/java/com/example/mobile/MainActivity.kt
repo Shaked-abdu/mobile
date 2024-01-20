@@ -25,8 +25,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         email = FirebaseAuth.getInstance().currentUser?.email
-        bundle.putString("EMAIL", email)
-
         val navHostFragment: NavHostFragment? =
             supportFragmentManager.findFragmentById(R.id.mainNavHost) as? NavHostFragment
 
@@ -36,13 +34,6 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment?.navController
         navController?.let { NavigationUI.setupActionBarWithNavController(this, it) }
         navController?.let { NavigationUI.setupWithNavController(bottomNavigationView!!, it) }
-
-
-//        val navController = findNavController(R.id.nav_host_fragment)
-//        navController?.navigate(R.id.addPostFragment, bundle)
-//        navController?.navigate(R.id.postsFragment, bundle)
-
-
     }
 
 
@@ -59,15 +50,6 @@ class MainActivity : AppCompatActivity() {
                 finish()
                 true
             }
-
-//            R.id.addPostFragment -> {
-//                Log.i("EMAIL", "Email: $email")
-//                Log.i("GAT", "clicked")
-//                val action =
-//                    PostsFragmentDirections.actionPostsFragmentToAddPostFragment(email ?: "")
-//                navController?.navigate(action)
-//                return true
-//            }
 
             else -> navController?.let { NavigationUI.onNavDestinationSelected(item, it) }
                 ?: super.onOptionsItemSelected(item)
