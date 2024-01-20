@@ -3,6 +3,7 @@ package com.example.mobile.Modules.Posts.Adapter
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobile.Model.Post
@@ -20,6 +21,7 @@ class PostsViewHolder(
     var titleTextView: TextView? = null
     var descriptionTextView: TextView? = null
     var imageView: ImageView? = null
+    var imageProgressBar: ProgressBar? = null
     var post: Post? = null
 
     init {
@@ -27,6 +29,7 @@ class PostsViewHolder(
         descriptionTextView = itemView.findViewById(R.id.postDescription)
         ownerTextView = itemView.findViewById(R.id.postOwner)
         imageView = itemView.findViewById(R.id.postImage)
+        imageProgressBar = itemView.findViewById(R.id.postImageProgressBar)
         itemView.setOnClickListener {
             Log.i("TAG", "PostsViewHolder: position clicked: $adapterPosition")
 
@@ -40,10 +43,19 @@ class PostsViewHolder(
         titleTextView?.text = post?.title
         descriptionTextView?.text = post?.description
         ownerTextView?.text = post?.owner
-        if (post?.imageUri != ""){
+        if (post?.imageUri != "") {
+            imageProgressBar?.visibility = View.VISIBLE
             Picasso.get()
                 .load(post?.imageUri)
-                .into(imageView)
+                .into(imageView, object : com.squareup.picasso.Callback {
+                    override fun onSuccess() {
+                        imageProgressBar?.visibility = View.GONE
+                    }
+
+                    override fun onError(e: Exception?) {
+                        imageProgressBar?.visibility = View.GONE
+                    }
+                })
         }
     }
 }

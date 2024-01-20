@@ -111,9 +111,11 @@ class AddPostFragment : Fragment() {
     }
 
     private val resultLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
-        imageUri = it
-        binding.ivAddPostUploadImage.setImageURI(it)
-        imageUploaded = true
+        if (it != null) {
+            imageUri = it
+            binding.ivAddPostUploadImage.setImageURI(it)
+            imageUploaded = true
+        }
 
     }
 

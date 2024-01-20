@@ -115,9 +115,11 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private val resultLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
-        imageUri = it
-        binding.ivRegisterUploadImage.setImageURI(it)
-        imageUploaded = true
+        if (it != null) {
+            imageUri = it
+            binding.ivRegisterUploadImage.setImageURI(it)
+            imageUploaded = true
+        }
     }
 
     private fun saveUser(email: String, imageUri: String) {
