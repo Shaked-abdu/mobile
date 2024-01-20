@@ -2,6 +2,7 @@ package com.example.mobile.Modules.Posts.Adapter
 
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobile.Model.Post
@@ -14,14 +15,17 @@ class PostsViewHolder(
     posts: List<Post>?
 ) :
     RecyclerView.ViewHolder(itemView) {
-
+    var ownerTextView: TextView? = null
     var titleTextView: TextView? = null
     var descriptionTextView: TextView? = null
+    var imageView: ImageView? = null
     var post: Post? = null
 
     init {
         titleTextView = itemView.findViewById(R.id.postTitle)
         descriptionTextView = itemView.findViewById(R.id.postDescription)
+        ownerTextView = itemView.findViewById(R.id.postOwner)
+        imageView = itemView.findViewById(R.id.postImage)
         itemView.setOnClickListener {
             Log.i("TAG", "PostsViewHolder: position clicked: $adapterPosition")
 
@@ -34,6 +38,9 @@ class PostsViewHolder(
         this.post = post
         titleTextView?.text = post?.title
         descriptionTextView?.text = post?.description
+        ownerTextView?.text = post?.owner
+//        imageView?.setImageURI()
+
     }
 
 }
