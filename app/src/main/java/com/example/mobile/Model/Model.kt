@@ -4,6 +4,8 @@ import android.os.Looper
 import android.util.Log
 import androidx.core.os.HandlerCompat
 import com.example.mobile.dao.AppLocalDatabase
+import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import java.util.concurrent.Executors
@@ -42,5 +44,8 @@ class Model private constructor() {
 //                callback()
 //            }
 //        }
+    }
+    fun addUser(user: User, callback: () -> Unit) {
+        firebaseModel.addUser(user, callback)
     }
 }

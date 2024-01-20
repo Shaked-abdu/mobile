@@ -10,6 +10,7 @@ class FirebaseModel {
 
     companion object {
         const val POSTS_COLLECTION_PATH = "posts"
+        const val USERS_COLLECTION_PATH = "users"
     }
 
     init {
@@ -51,6 +52,16 @@ class FirebaseModel {
                 callback()
             }
     }
+
+    fun addUser(user: User, callback: () -> Unit) {
+        val db = Firebase.firestore
+        db.collection(USERS_COLLECTION_PATH)
+            .add(user.json)
+            .addOnSuccessListener() {
+                callback()
+            }
+    }
+
 
 }
 

@@ -60,14 +60,14 @@ class MainActivity : AppCompatActivity() {
                 true
             }
 
-            R.id.addPostFragment -> {
-                Log.i("EMAIL", "Email: $email")
-                Log.i("GAT", "clicked")
-                val action =
-                    PostsFragmentDirections.actionPostsFragmentToAddPostFragment(email ?: "")
-                navController?.navigate(action)
-                return true
-            }
+//            R.id.addPostFragment -> {
+//                Log.i("EMAIL", "Email: $email")
+//                Log.i("GAT", "clicked")
+//                val action =
+//                    PostsFragmentDirections.actionPostsFragmentToAddPostFragment(email ?: "")
+//                navController?.navigate(action)
+//                return true
+//            }
 
             else -> navController?.let { NavigationUI.onNavDestinationSelected(item, it) }
                 ?: super.onOptionsItemSelected(item)

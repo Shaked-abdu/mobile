@@ -23,6 +23,7 @@ class AddPostFragment : Fragment() {
     private var saveButton: Button? = null
     private var cancelButton: Button? = null
     private var email: String? = null
+    private var imageUri: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +60,7 @@ class AddPostFragment : Fragment() {
                 Toast.makeText(context, "Please fill all fields", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            val post = Post(header, description, email?:"")
+            val post = Post(header, description, email?:"", imageUri?:"")
             Model.instance.addPost(post) {
                 Toast.makeText(context, "Post saved successfully", Toast.LENGTH_SHORT).show()
                 Navigation.findNavController(it).popBackStack(R.id.postsFragment, false)
