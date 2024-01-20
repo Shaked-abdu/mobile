@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mobile.Model.Post
 import com.example.mobile.Modules.Posts.PostsRecyclerViewActivity
 import com.example.mobile.R
+import com.squareup.picasso.Picasso
 
 class PostsViewHolder(
     val itemView: View,
@@ -39,8 +40,10 @@ class PostsViewHolder(
         titleTextView?.text = post?.title
         descriptionTextView?.text = post?.description
         ownerTextView?.text = post?.owner
-//        imageView?.setImageURI()
-
+        if (post?.imageUri != ""){
+            Picasso.get()
+                .load(post?.imageUri)
+                .into(imageView)
+        }
     }
-
 }
