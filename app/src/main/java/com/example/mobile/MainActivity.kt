@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 //        email = intent.getStringExtra("user_email")
-//        email = FirebaseAuth.getInstance().currentUser?.email
+        email = FirebaseAuth.getInstance().currentUser?.email
         val navHostFragment: NavHostFragment? =
             supportFragmentManager.findFragmentById(R.id.mainNavHost) as? NavHostFragment
 
