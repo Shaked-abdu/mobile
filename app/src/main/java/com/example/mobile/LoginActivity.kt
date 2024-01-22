@@ -27,12 +27,12 @@ class LoginActivity : AppCompatActivity() {
         }
         loginButton.setOnClickListener(::login)
 
-        var userEmail = checkIfUserIsSignedIn()
-        if (userEmail != "") {
+        var userUid = checkIfUserIsSignedIn()
+        if (userUid != "") {
             val intent = Intent(this@LoginActivity, MainActivity::class.java)
             intent.putExtra(
-                "user_email",
-                userEmail
+                "userUid",
+                userUid
             )
             startActivity(intent)
             finish()
@@ -66,7 +66,7 @@ class LoginActivity : AppCompatActivity() {
                     .addOnCompleteListener { task ->
 
                         if (task.isSuccessful) {
-                            saveUserIdInSharedPreferences(email)
+                            saveUserIdInSharedPreferences(FirebaseAuth.getInstance().currentUser!!.uid)
                             Toast.makeText(
                                 this@LoginActivity,
                                 "You are logged in successfully.",
@@ -76,11 +76,11 @@ class LoginActivity : AppCompatActivity() {
                                 Intent(this@LoginActivity, MainActivity::class.java)
                             intent.flags =
                                 Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                            intent.putExtra(
-                                "user_id",
-                                FirebaseAuth.getInstance().currentUser!!.uid
-                            )
-                            intent.putExtra("email_id", email)
+//                            intent.putExtra(
+//                                "user_id",
+//                                FirebaseAuth.getInstance().currentUser!!.uid
+//                            )
+//                            intent.putExtra("email_id", email)
                             startActivity(intent)
                             finish()
                         } else {
@@ -97,16 +97,16 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    fun saveUserIdInSharedPreferences(email: String) {
+    fun saveUserIdInSharedPreferences(uid: String) {
         val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        editor.putString("userEmail", email)
+        editor.putString("userUid", uid)
         editor.apply()
     }
 
     fun checkIfUserIsSignedIn(): String {
         val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        val userEmail = sharedPreferences.getString("userEmail", null)
-        return userEmail ?: ""
+        val userUid = sharedPreferences.getString("userUid", null)
+        return userUid ?: ""
     }
 }

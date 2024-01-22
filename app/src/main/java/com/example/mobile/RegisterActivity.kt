@@ -83,7 +83,8 @@ class RegisterActivity : AppCompatActivity() {
                         if (task.isSuccessful) {
                             storageModel.uploadFile(imageUri!!,
                                 onComplete = { uri ->
-                                    saveUser(email, uri)
+                                    val uid = FirebaseAuth.getInstance().currentUser!!.uid
+                                    saveUser(uid, uri)
                                 },
                                 onFailure = { message ->
 

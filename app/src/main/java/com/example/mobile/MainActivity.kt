@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuth
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var navController: NavController? = null
-    private var email: String? = null
+    private var userUid: String? = null
 
     private var bottomNavigationView: BottomNavigationView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +29,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 //        email = intent.getStringExtra("user_email")
-        email = FirebaseAuth.getInstance().currentUser?.email
+//        email = FirebaseAuth.getInstance().currentUser?.email
+        userUid = FirebaseAuth.getInstance().currentUser?.uid
         val navHostFragment: NavHostFragment? =
             supportFragmentManager.findFragmentById(R.id.mainNavHost) as? NavHostFragment
 
@@ -52,7 +53,7 @@ class MainActivity : AppCompatActivity() {
                 FirebaseAuth.getInstance().signOut()
                 val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
                 val editor = sharedPreferences.edit()
-                editor.remove("userEmail")
+                editor.remove("userUid")
                 editor.apply()
                 startActivity(Intent(this@MainActivity, LoginActivity::class.java))
                 finish()
