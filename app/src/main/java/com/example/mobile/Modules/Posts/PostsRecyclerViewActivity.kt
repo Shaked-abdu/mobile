@@ -28,11 +28,11 @@ class PostsRecyclerViewActivity : AppCompatActivity() {
         setContentView(binding.root)
         adapter = PostsRecyclerAdapter(posts)
 
-        Model.instance.getAllPosts { posts ->
-            this.posts = posts
-            adapter?.posts = posts
-            adapter?.notifyDataSetChanged()
-        }
+//        Model.instance.getAllPosts { posts ->
+//            this.posts = posts
+//            adapter?.posts = posts
+//            adapter?.notifyDataSetChanged()
+//        }
         postsRecyclerView = binding.rvPostsRecyclerList
         postsRecyclerView?.setHasFixedSize(true)
 
@@ -59,10 +59,10 @@ class PostsRecyclerViewActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        Model.instance.getAllPosts { posts ->
-            this.posts = posts
-            adapter?.posts = posts
-            adapter?.notifyDataSetChanged()
-        }
+//        Model.instance.getAllPosts { posts ->
+//            this.posts = posts
+//            adapter?.posts = posts
+//            adapter?.notifyDataSetChanged()
+//        }
     }
 }

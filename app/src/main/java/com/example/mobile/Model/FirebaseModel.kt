@@ -1,5 +1,6 @@
 package com.example.mobile.Model
 
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.firestoreSettings
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.memoryCacheSettings
@@ -20,8 +21,9 @@ class FirebaseModel {
         db.firestoreSettings = settings
     }
 
-    fun getAllPosts(callback: (List<Post>) -> Unit) {
+    fun getAllPosts(since: Long, callback: (List<Post>) -> Unit) {
         db.collection(POSTS_COLLECTION_PATH)
+            .whereGreaterThanOrEqualTo(Post.LAST_UPDATED_NAME, Timestamp(since, 0))
             .get()
             .addOnCompleteListener {
                 when (it.isSuccessful) {
