@@ -1,21 +1,25 @@
 package com.example.mobile.Modules.Posts
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobile.Model.Model
 import com.example.mobile.Model.Post
 import com.example.mobile.Modules.Posts.Adapter.PostsRecyclerAdapter
 import com.example.mobile.R
+import com.example.mobile.base.MyApplication
 import com.example.mobile.databinding.FragmentPostsBinding
 
 class PostsFragment : Fragment() {
@@ -27,6 +31,7 @@ class PostsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var viewModel: PostsViewModel
+    private val userId: String = signedInUserUid()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -81,6 +86,7 @@ class PostsFragment : Fragment() {
             binding.pullToRefresh.isRefreshing = state == Model.LoadingState.LOADING
         }
 
+
         return view
     }
 
@@ -99,5 +105,23 @@ class PostsFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    fun signedInUserUid(): String {
+        return MyApplication.Globals.appContext
+            ?.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+            ?.getString("userUid", null) ?: ""
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_postsFragment_to_addPostFragment -> {
+                val action = PostsFragmentDirections.actionPostsFragmentToAddPostFragment(userId)
+                Navigation.findNavController(requireView()).navigate(action)
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
