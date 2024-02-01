@@ -58,13 +58,38 @@ class FirebaseModel {
     fun addUser(user: User, callback: () -> Unit) {
         val db = Firebase.firestore
         db.collection(USERS_COLLECTION_PATH)
-            .add(user.json)
+            .document(user.uid)
+            .set(user.json)
             .addOnSuccessListener() {
                 callback()
             }
     }
 
+    fun getUserById(uid: String, callback: (User?) -> Unit) {
+        db.collection(USERS_COLLECTION_PATH)
+            .whereEqualTo(User.UID_NAME, uid)
+            .get()
+            .addOnCompleteListener {
+                when (it.isSuccessful) {
+                    true -> {
+                        val users: MutableList<User> = mutableListOf()
+                        for (json in it.result) {
+                            val user = User.fromJson(json.data)
+                            users.add(user)
+                        }
+                        callback(users.firstOrNull())
+                    }
 
+                    false -> {
+                        callback(null)
+                    }
+                }
+            }
+    }
+
+    fun updateUserById(user: User, callback: () -> Unit) {
+        addUser(user, callback)
+    }
 }
 
 
