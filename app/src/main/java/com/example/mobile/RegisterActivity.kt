@@ -104,7 +104,7 @@ class RegisterActivity : AppCompatActivity() {
                             storageModel.uploadFile(imageUri!!,
                                 onComplete = { uri ->
                                     val uid = FirebaseAuth.getInstance().currentUser!!.uid
-                                    saveUser(uid, uri, firstName, lastName)
+                                    saveUser(uid, email, uri, firstName, lastName)
                                 },
                                 onFailure = { message ->
 
@@ -143,8 +143,14 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveUser(uid: String, imageUri: String, firstName: String, lastName: String) {
-        val user = User(uid, imageUri, firstName, lastName)
+    private fun saveUser(
+        uid: String,
+        email: String,
+        imageUri: String,
+        firstName: String,
+        lastName: String
+    ) {
+        val user = User(uid, email, imageUri, firstName, lastName)
         Model.instance.addUser(user) {
             Toast.makeText(
                 this@RegisterActivity,
