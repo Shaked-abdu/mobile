@@ -58,6 +58,7 @@ class MainActivity : AppCompatActivity() {
                 true
             }
 
+
             else -> navController?.let { NavigationUI.onNavDestinationSelected(item, it) }
                 ?: super.onOptionsItemSelected(item)
         }

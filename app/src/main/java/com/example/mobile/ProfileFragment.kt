@@ -1,20 +1,20 @@
 package com.example.mobile
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.mobile.Modules.AddPost.AddPostFragmentArgs
-import com.example.mobile.databinding.FragmentPostsBinding
+import com.example.mobile.base.MyApplication
 import com.example.mobile.databinding.FragmentProfileBinding
 
 
 class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
-    var email: String? = null
+    var userId: String? = null
 
 
     override fun onCreateView(
@@ -25,18 +25,19 @@ class ProfileFragment : Fragment() {
         val view = binding.root
 
 
-        val email = arguments?.let { AddPostFragmentArgs.fromBundle(it).UID }
-
-        Log.i("TAG", "ProfileFragment: $email")
+        userId = signedInUserUid()
 
 
         val emailTextView = binding.tvEmail
-        emailTextView.text = email
-
-
-
+        emailTextView.text = userId!!
 
 
         return view
+    }
+
+    fun signedInUserUid(): String {
+        return MyApplication.Globals.appContext
+            ?.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+            ?.getString("userUid", null) ?: ""
     }
 }

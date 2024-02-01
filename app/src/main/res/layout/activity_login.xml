@@ -21,16 +21,16 @@
             android:layout_height="match_parent"
             android:contentDescription="image"
             android:scaleType="fitXY"
-            android:src="@drawable/auth_screens_background" />
+            android:src="@drawable/app_logo" />
 
-        <ImageView
-            android:layout_width="220dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:contentDescription="@string/app_name"
-            android:scaleType="fitCenter"
-            android:src="@drawable/app_logo"
-            app:tint="@android:color/white" />
+<!--        <ImageView-->
+<!--            android:layout_width="220dp"-->
+<!--            android:layout_height="100dp"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:contentDescription="@string/app_name"-->
+<!--            android:scaleType="fitCenter"-->
+<!--            android:src="@drawable/app_logo"-->
+<!--            app:tint="@android:color/white" />-->
     </FrameLayout>
 
     <TextView
@@ -38,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="35dp"
-        android:text="LOGIN SCREEN"
+        android:text="Login"
         android:textColor="#222934"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -100,7 +100,7 @@
 <!--        app:layout_constraintEnd_toEndOf="parent"-->
 <!--        app:layout_constraintTop_toBottomOf="@id/til_login_password" />-->
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -108,7 +108,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="16dp"
-        android:background="@color/colorAccent"
+        android:background="@color/yellow"
         android:foreground="?attr/selectableItemBackground"
         android:gravity="center"
         android:text="Login"

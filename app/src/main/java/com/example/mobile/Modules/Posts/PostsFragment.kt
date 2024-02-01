@@ -33,6 +33,7 @@ class PostsFragment : Fragment() {
     private lateinit var viewModel: PostsViewModel
     private val userId: String = signedInUserUid()
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -86,7 +87,6 @@ class PostsFragment : Fragment() {
             binding.pullToRefresh.isRefreshing = state == Model.LoadingState.LOADING
         }
 
-
         return view
     }
 
@@ -113,15 +113,15 @@ class PostsFragment : Fragment() {
             ?.getString("userUid", null) ?: ""
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_postsFragment_to_addPostFragment -> {
-                val action = PostsFragmentDirections.actionPostsFragmentToAddPostFragment(userId)
-                Navigation.findNavController(requireView()).navigate(action)
-                true
-            }
-
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        return when (item.itemId) {
+//            R.id.profileFragment -> {
+//                Log.i("TAG", "onOptionsItemSelected userId: $userId")
+//                val action = PostsFragmentDirections.actionPostsFragmentToProfileFragment(userId)
+//                Navigation.findNavController(requireView()).navigate(action)
+//                true
+//            }
+//            else -> super.onOptionsItemSelected(item)
+//        }
+//    }
 }
