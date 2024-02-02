@@ -114,7 +114,9 @@ class ProfileFragment : Fragment() {
                 "Nothing to update.",
                 Toast.LENGTH_SHORT
             ).show()
-        } else if (firstName.equals(user!!.firstName).not() || lastName.equals(user!!.lastName).not()) {
+        } else if (firstName.equals(user!!.firstName).not() || lastName.equals(user!!.lastName)
+                .not()
+        ) {
             user = User(userId!!, user!!.email, user!!.imageUri, firstName, lastName)
             Model.instance.updateUserById(user!!) {
                 Toast.makeText(
@@ -135,6 +137,7 @@ class ProfileFragment : Fragment() {
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
+                        imageUri = null
                     },
                     onFailure = { message ->
 
@@ -143,6 +146,8 @@ class ProfileFragment : Fragment() {
                             message,
                             Toast.LENGTH_SHORT
                         ).show()
+                        imageUri = null
+
                     }
                 )
             }

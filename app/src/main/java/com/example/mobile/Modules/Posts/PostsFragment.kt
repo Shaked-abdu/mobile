@@ -32,6 +32,7 @@ class PostsFragment : Fragment() {
 
     private lateinit var viewModel: PostsViewModel
     private val userId: String = signedInUserUid()
+    private var showAll = true
 
 
     override fun onCreateView(
@@ -43,6 +44,9 @@ class PostsFragment : Fragment() {
         viewModel = ViewModelProvider(this)[PostsViewModel::class.java]
         progressBar = binding.progressBar
         progressBar?.visibility = View.VISIBLE
+
+
+        binding.btnPostsShowAll.setOnClickListener(::showAllClicked)
         adapter = PostsRecyclerAdapter(viewModel.posts?.value)
 
         viewModel.posts = Model.instance.getAllPosts()
@@ -111,6 +115,12 @@ class PostsFragment : Fragment() {
         return MyApplication.Globals.appContext
             ?.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
             ?.getString("userUid", null) ?: ""
+    }
+
+    private fun showAllClicked(view: View) {
+        showAll = !showAll
+        binding.btnPostsShowAll.text = if (showAll) "My Reports" else "All Reports"
+
     }
 
 //    override fun onOptionsItemSelected(item: MenuItem): Boolean {

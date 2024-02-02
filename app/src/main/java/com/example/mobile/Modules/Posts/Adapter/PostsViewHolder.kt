@@ -6,6 +6,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mobile.Model.Model
 import com.example.mobile.Model.Post
 import com.example.mobile.Modules.Posts.PostsRecyclerViewActivity
 import com.example.mobile.R
@@ -42,7 +43,9 @@ class PostsViewHolder(
         this.post = post
         titleTextView?.text = post?.title
         descriptionTextView?.text = post?.description
-        ownerTextView?.text = post?.owner
+        Model.instance.getUserById(post?.owner!!) {
+            ownerTextView?.text = it?.firstName + " " + it?.lastName
+        }
         if (post?.imageUri != "") {
             imageProgressBar?.visibility = View.VISIBLE
             Picasso.get()
