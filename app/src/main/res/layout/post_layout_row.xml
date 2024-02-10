@@ -1,7 +1,6 @@
 <!-- post_layout_raw.xml -->
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,15 +8,7 @@
     android:padding="16dp">
 
     <!-- Post Owner -->
-    <TextView
-        android:id="@+id/postOwner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Post Owner"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 
     <!-- CardView for elevation and rounded corners -->
     <androidx.cardview.widget.CardView
@@ -31,6 +22,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/postOwner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Post Owner"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <!-- Post Title -->
             <TextView
@@ -63,11 +64,12 @@
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
                     android:src="@drawable/waves"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:cardCornerRadius="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:cardCornerRadius="16dp"/>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
 
                 <ProgressBar
                     android:id="@+id/postImageProgressBar"
@@ -77,6 +79,28 @@
                     android:visibility="visible" />
 
             </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="300dp"
+                    android:onClick="onEditingButtonClick"
+                    android:src="@drawable/editing" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="5dp"
+                    android:onClick="onDeleteButtonClick"
+                    android:src="@drawable/delete" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

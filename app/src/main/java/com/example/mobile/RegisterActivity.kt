@@ -49,6 +49,8 @@ class RegisterActivity : AppCompatActivity() {
         binding.progressBar.visibility = View.VISIBLE
         val email = binding.etRegisterEmail.text.toString()
         val password = binding.etRegisterPassword.text.toString()
+        val firstName = binding.etRegisterFirstName.text.toString()
+        val lastName = binding.etRegisterLastName.text.toString()
         when {
             TextUtils.isEmpty(email.trim { it <= ' ' }) -> {
                 Toast.makeText(
@@ -63,6 +65,24 @@ class RegisterActivity : AppCompatActivity() {
                 Toast.makeText(
                     this@RegisterActivity,
                     "Please enter password.",
+                    Toast.LENGTH_SHORT
+                ).show()
+                binding.progressBar.visibility = View.GONE
+            }
+
+            TextUtils.isEmpty(firstName.trim { it <= ' ' }) -> {
+                Toast.makeText(
+                    this@RegisterActivity,
+                    "Please enter first name.",
+                    Toast.LENGTH_SHORT
+                ).show()
+                binding.progressBar.visibility = View.GONE
+            }
+
+            TextUtils.isEmpty(lastName.trim { it <= ' ' }) -> {
+                Toast.makeText(
+                    this@RegisterActivity,
+                    "Please enter last name.",
                     Toast.LENGTH_SHORT
                 ).show()
                 binding.progressBar.visibility = View.GONE
@@ -84,7 +104,7 @@ class RegisterActivity : AppCompatActivity() {
                             storageModel.uploadFile(imageUri!!,
                                 onComplete = { uri ->
                                     val uid = FirebaseAuth.getInstance().currentUser!!.uid
-                                    saveUser(uid, uri)
+                                    saveUser(uid, email, uri, firstName, lastName)
                                 },
                                 onFailure = { message ->
 
@@ -123,8 +143,14 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveUser(email: String, imageUri: String) {
-        val user = User(email, imageUri)
+    private fun saveUser(
+        uid: String,
+        email: String,
+        imageUri: String,
+        firstName: String,
+        lastName: String
+    ) {
+        val user = User(uid, email, imageUri, firstName, lastName)
         Model.instance.addUser(user) {
             Toast.makeText(
                 this@RegisterActivity,

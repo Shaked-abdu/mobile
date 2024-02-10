@@ -1,5 +1,6 @@
 package com.example.mobile.Modules.AddPost
 
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -19,6 +20,7 @@ import com.example.mobile.Model.Model
 import com.example.mobile.Model.Post
 import com.example.mobile.Model.StorageModel
 import com.example.mobile.R
+import com.example.mobile.base.MyApplication
 import com.example.mobile.databinding.FragmentAddPostBinding
 import com.example.mobile.databinding.FragmentPostsBinding
 
@@ -32,7 +34,7 @@ class AddPostFragment : Fragment() {
     //    private var  ivUploadImage: ImageView? = null
     private var saveButton: Button? = null
     private var cancelButton: Button? = null
-    private var email: String? = null
+    private val userId: String = signedInUserUid()
     private var imageUri: Uri? = null
     private var _binding: FragmentAddPostBinding? = null
     private val storageModel = StorageModel("posts_images")
@@ -106,6 +108,12 @@ class AddPostFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    fun signedInUserUid(): String {
+        return MyApplication.Globals.appContext
+            ?.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+            ?.getString("userUid", null) ?: ""
+    }
+
     private fun uploadImage(view: View) {
         resultLauncher.launch("image/*")
     }
@@ -120,7 +128,7 @@ class AddPostFragment : Fragment() {
     }
 
     private fun savePost(title: String, description: String, uri: String) {
-        val post = Post(title, description, email ?: "", uri)
+        val post = Post(title, description, userId ?: "", uri)
         Model.instance.addPost(post) {
             Toast.makeText(context, "Post saved successfully", Toast.LENGTH_SHORT).show()
             Navigation.findNavController(binding.root)

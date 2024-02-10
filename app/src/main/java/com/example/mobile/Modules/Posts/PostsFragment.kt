@@ -32,6 +32,8 @@ class PostsFragment : Fragment() {
 
     private lateinit var viewModel: PostsViewModel
     private val userId: String = signedInUserUid()
+    private var showAll = true
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +44,9 @@ class PostsFragment : Fragment() {
         viewModel = ViewModelProvider(this)[PostsViewModel::class.java]
         progressBar = binding.progressBar
         progressBar?.visibility = View.VISIBLE
+
+
+        binding.btnPostsShowAll.setOnClickListener(::showAllClicked)
         adapter = PostsRecyclerAdapter(viewModel.posts?.value)
 
         viewModel.posts = Model.instance.getAllPosts()
@@ -86,7 +91,6 @@ class PostsFragment : Fragment() {
             binding.pullToRefresh.isRefreshing = state == Model.LoadingState.LOADING
         }
 
-
         return view
     }
 
@@ -113,15 +117,21 @@ class PostsFragment : Fragment() {
             ?.getString("userUid", null) ?: ""
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_postsFragment_to_addPostFragment -> {
-                val action = PostsFragmentDirections.actionPostsFragmentToAddPostFragment(userId)
-                Navigation.findNavController(requireView()).navigate(action)
-                true
-            }
+    private fun showAllClicked(view: View) {
+        showAll = !showAll
+        binding.btnPostsShowAll.text = if (showAll) "My Reports" else "All Reports"
 
-            else -> super.onOptionsItemSelected(item)
-        }
     }
+
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        return when (item.itemId) {
+//            R.id.profileFragment -> {
+//                Log.i("TAG", "onOptionsItemSelected userId: $userId")
+//                val action = PostsFragmentDirections.actionPostsFragmentToProfileFragment(userId)
+//                Navigation.findNavController(requireView()).navigate(action)
+//                true
+//            }
+//            else -> super.onOptionsItemSelected(item)
+//        }
+//    }
 }

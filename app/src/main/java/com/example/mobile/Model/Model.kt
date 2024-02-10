@@ -69,4 +69,12 @@ class Model private constructor() {
             callback()
         }
     }
+
+    fun getUserById(uid: String, callback: (User?) -> Unit) {
+        firebaseModel.getUserById(uid, callback)
+    }
+
+    fun updateUserById(user: User, callback: () -> Unit) {
+        firebaseModel.updateUserById(user, callback)
+    }
 }

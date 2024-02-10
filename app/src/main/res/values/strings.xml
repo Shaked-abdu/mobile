@@ -2,4 +2,8 @@
     <string name="app_name">mobile</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="wave_height">Wave Height: %1$s</string>
+    <string name="wave_direction">Wave Direction: %1$s</string>
+    <string name="wave_period">Wave Period: %1$s</string>
+
 </resources>

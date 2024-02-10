@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_postsFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_postsFragment_to_weatherFragment"
+            app:destination="@id/weatherFragment" />
     </fragment>
     <fragment
         android:id="@+id/blueFragment"
@@ -34,12 +37,19 @@
         android:name="com.example.mobile.Modules.AddPost.AddPostFragment"
         android:label="Add post"
         tools:layout="@layout/fragment_add_post">
-        <argument
-            android:name="UID"
-            app:argType="string" />
+
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.mobile.ProfileFragment"
-        android:label="ProfileFragment" />
+        android:label="ProfileFragment">
+        <argument
+            android:name="USER_ID"
+            app:argType="string" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/weatherFragment"
+        android:name="com.example.mobile.WeatherFragment"
+        android:label="WeatherFragment" />
 </navigation>
