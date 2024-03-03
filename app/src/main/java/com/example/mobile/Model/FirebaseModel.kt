@@ -1,5 +1,8 @@
 package com.example.mobile.Model
 
+import android.util.Log
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.firestoreSettings
 import com.google.firebase.firestore.ktx.firestore
@@ -89,6 +92,20 @@ class FirebaseModel {
 
     fun updateUserById(user: User, callback: () -> Unit) {
         addUser(user, callback)
+    }
+
+    fun deletePost(post: Post, callback: () -> Unit) {
+        Log.i("TAG", "FirebaseModel: deletePost: post: $post")
+        val query = db.collection(POSTS_COLLECTION_PATH).whereEqualTo(Post.UID_NAME, post.uid)
+
+        // Get documents matching the query
+        query.get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    document.reference.delete()
+                }
+                callback()
+            }
     }
 }
 

@@ -18,4 +18,13 @@ interface PostDao {
 
     @Delete
     fun delete(post: Post)
+
+    @Query("DELETE FROM Post")
+    fun deleteAll()
+
+    @Query("DELETE FROM Post WHERE uid = :uid")
+    fun deleteByUid(uid: String)
+
+    @Query("SELECT * FROM Post WHERE owner = :owner")
+    fun getByOwner(owner: String): LiveData<MutableList<Post>>
 }

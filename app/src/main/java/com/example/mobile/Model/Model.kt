@@ -35,7 +35,10 @@ class Model private constructor() {
     fun getAllPosts(): LiveData<MutableList<Post>> {
         refreshAllPosts()
         return posts ?: database.postDao().getAll()
+    }
 
+    fun getMyPosts(owner: String): LiveData<MutableList<Post>> {
+        return database.postDao().getByOwner(owner)
     }
 
     fun refreshAllPosts() {
@@ -76,5 +79,12 @@ class Model private constructor() {
 
     fun updateUserById(user: User, callback: () -> Unit) {
         firebaseModel.updateUserById(user, callback)
+    }
+
+    fun deletePost(post: Post, callback: () -> Unit) {
+        firebaseModel.deletePost(post, callback)
+        executor.execute {
+            database.postDao().deleteByUid(post.uid)
+        }
     }
 }
