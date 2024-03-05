@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.mobile.Model.Post
 import com.example.mobile.Model.User
 
 interface UserDao {
@@ -19,5 +20,6 @@ interface UserDao {
 
     @Query("SELECT * FROM User WHERE uid = :uid")
     fun getUserById(uid: String): LiveData<User>
+
 
 }

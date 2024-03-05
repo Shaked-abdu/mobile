@@ -1,10 +1,14 @@
 package com.example.mobile.Model
 
+import android.icu.text.CaseMap.Title
 import android.os.Looper
 import android.util.Log
+import android.widget.Toast
 import androidx.core.os.HandlerCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.Navigation
+import com.example.mobile.R
 import com.example.mobile.dao.AppLocalDatabase
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentReference
@@ -41,6 +45,12 @@ class Model private constructor() {
         return database.postDao().getByOwner(owner)
     }
 
+    fun getMyPosts(user: String): LiveData<MutableList<Post>> {
+        refreshAllPosts()
+        return posts ?: database.postDao().getMyPostsList(user)
+
+    }
+
     fun refreshAllPosts() {
         postsListLoadingState.value = LoadingState.LOADING
         val lastUpdated: Long = Post.lastUpdated
@@ -60,6 +70,8 @@ class Model private constructor() {
             }
         }
     }
+
+
 
     fun addPost(post: Post, callback: () -> Unit) {
         firebaseModel.addPost(post, callback)

@@ -6,5 +6,7 @@ import com.example.mobile.Model.Post
 
 class PostsViewModel : ViewModel() {
     var posts: LiveData<MutableList<Post>>? = null
+    var myPosts : LiveData<MutableList<Post>>? = null
+
 
 }

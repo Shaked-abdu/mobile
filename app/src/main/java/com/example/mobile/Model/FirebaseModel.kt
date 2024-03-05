@@ -47,6 +47,29 @@ class FirebaseModel {
             }
     }
 
+    fun getAllMyPosts(since: Long, callback: (List<Post>) -> Unit) {
+        db.collection(POSTS_COLLECTION_PATH)
+            .whereGreaterThanOrEqualTo(Post.LAST_UPDATED_NAME, Timestamp(since, 0))
+            .get()
+            .addOnCompleteListener {
+                when (it.isSuccessful) {
+                    true -> {
+                        val posts: MutableList<Post> = mutableListOf()
+                        for (json in it.result) {
+
+                            val post = Post.fromJson(json.data)
+                            posts.add(post)
+                        }
+                        callback(posts)
+                    }
+
+                    false -> {
+                        callback(listOf())
+                    }
+                }
+            }
+    }
+
     fun addPost(post: Post, callback: () -> Unit) {
         val db = Firebase.firestore
         db.collection(POSTS_COLLECTION_PATH)
