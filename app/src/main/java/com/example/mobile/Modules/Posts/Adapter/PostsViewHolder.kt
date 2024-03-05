@@ -103,6 +103,7 @@ class PostsViewHolder(
     fun delete(view: View) {
         Model.instance.deletePost(post!!) {
             Log.i("TAG", "Post deleted")
+            Model.instance.refreshAllPosts()
         }
     }
 }
