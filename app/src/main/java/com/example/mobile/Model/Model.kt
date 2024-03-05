@@ -41,10 +41,6 @@ class Model private constructor() {
         return posts ?: database.postDao().getAll()
     }
 
-    fun getMyPosts(owner: String): LiveData<MutableList<Post>> {
-        return database.postDao().getByOwner(owner)
-    }
-
     fun getMyPosts(user: String): LiveData<MutableList<Post>> {
         refreshAllPosts()
         return posts ?: database.postDao().getMyPostsList(user)
