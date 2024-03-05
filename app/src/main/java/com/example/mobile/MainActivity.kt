@@ -7,11 +7,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import com.example.mobile.Modules.Posts.PostsFragment
 import com.example.mobile.Modules.Posts.PostsFragmentDirections
 import com.example.mobile.databinding.ActivityMainBinding
+import com.example.mobile.databinding.ActivityPostsRecyclerViewBinding
 import com.example.mobile.databinding.ActivityRegisterBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.ktx.Firebase
@@ -23,12 +26,16 @@ class MainActivity : AppCompatActivity() {
     private var navController: NavController? = null
     private var userUid: String? = null
 
+
     private var bottomNavigationView: BottomNavigationView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         userUid = FirebaseAuth.getInstance().currentUser?.uid
+
         val navHostFragment: NavHostFragment? =
             supportFragmentManager.findFragmentById(R.id.mainNavHost) as? NavHostFragment
 

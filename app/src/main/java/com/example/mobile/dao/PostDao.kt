@@ -13,9 +13,15 @@ interface PostDao {
     @Query("SELECT * FROM Post")
     fun getAll(): LiveData<MutableList<Post>>
 
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(vararg posts: Post)
 
     @Delete
     fun delete(post: Post)
+
+    @Query("SELECT * FROM Post WHERE owner = :uid")
+    fun getMyPostsList(uid: String): LiveData<MutableList<Post>>
+
+
 }
