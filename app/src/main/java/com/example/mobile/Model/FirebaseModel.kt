@@ -1,5 +1,8 @@
 package com.example.mobile.Model
 
+import android.util.Log
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.firestoreSettings
 import com.google.firebase.firestore.ktx.firestore
@@ -70,7 +73,8 @@ class FirebaseModel {
     fun addPost(post: Post, callback: () -> Unit) {
         val db = Firebase.firestore
         db.collection(POSTS_COLLECTION_PATH)
-            .add(post.json)
+            .document(post.uid)
+            .set(post.json)
             .addOnSuccessListener {
                 callback()
             }
@@ -110,6 +114,46 @@ class FirebaseModel {
 
     fun updateUserById(user: User, callback: () -> Unit) {
         addUser(user, callback)
+    }
+
+    fun deletePost(post: Post, callback: () -> Unit) {
+        Log.i("TAG", "FirebaseModel: deletePost: post: $post")
+        val query = db.collection(POSTS_COLLECTION_PATH).whereEqualTo(Post.UID_NAME, post.uid)
+
+        // Get documents matching the query
+        query.get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    document.reference.delete()
+                }
+                callback()
+            }
+    }
+
+    fun updatePostByUid(post: Post, callback: () -> Unit) {
+        addPost(post, callback)
+    }
+
+    fun getPostById(uid: String, callback: (Post?) -> Unit) {
+        db.collection(POSTS_COLLECTION_PATH)
+            .whereEqualTo(Post.UID_NAME, uid)
+            .get()
+            .addOnCompleteListener {
+                when (it.isSuccessful) {
+                    true -> {
+                        val posts: MutableList<Post> = mutableListOf()
+                        for (json in it.result) {
+                            val post = Post.fromJson(json.data)
+                            posts.add(post)
+                        }
+                        callback(posts.firstOrNull())
+                    }
+
+                    false -> {
+                        callback(null)
+                    }
+                }
+            }
     }
 }
 

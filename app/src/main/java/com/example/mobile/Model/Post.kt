@@ -9,7 +9,8 @@ import com.google.firebase.firestore.FieldValue
 
 @Entity
 data class Post(
-    @PrimaryKey val title: String,
+    @PrimaryKey val uid: String,
+    val title: String,
     val description: String,
     val owner: String,
     val imageUri: String,
@@ -30,6 +31,7 @@ data class Post(
                     ?.putLong(GET_LAST_UPDATED, value)
                     ?.apply()
             }
+        const val UID_NAME = "uid"
         const val TITLE_NAME = "title"
         const val DESCRIPTION_NAME = "description"
         const val OWNER_NAME = "owner"
@@ -37,11 +39,12 @@ data class Post(
         const val LAST_UPDATED_NAME = "lastUpdated"
         const val GET_LAST_UPDATED = "get_last_updated"
         fun fromJson(json: Map<String, Any>): Post {
+            val uid = json[User.UID_NAME] as? String ?: ""
             val title = json[TITLE_NAME] as? String ?: ""
             val description = json[DESCRIPTION_NAME] as? String ?: ""
             val owner = json[OWNER_NAME] as? String ?: ""
             val imageUri = json[IMAGE_URI_NAME] as? String ?: ""
-            val post =  Post(title, description, owner, imageUri)
+            val post =  Post(uid, title, description, owner, imageUri)
 
             val timestamp: Timestamp? = json[LAST_UPDATED_NAME] as? Timestamp
             timestamp?.let {
@@ -57,6 +60,7 @@ data class Post(
     val json: Map<String, Any>
         get() {
             return hashMapOf(
+                UID_NAME to uid,
                 TITLE_NAME to title,
                 DESCRIPTION_NAME to description,
                 OWNER_NAME to owner,

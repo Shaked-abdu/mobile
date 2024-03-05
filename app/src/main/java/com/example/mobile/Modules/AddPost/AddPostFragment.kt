@@ -23,7 +23,7 @@ import com.example.mobile.R
 import com.example.mobile.base.MyApplication
 import com.example.mobile.databinding.FragmentAddPostBinding
 import com.example.mobile.databinding.FragmentPostsBinding
-
+import java.util.UUID
 
 class AddPostFragment : Fragment() {
     private var headerTextField: EditText? = null
@@ -128,7 +128,8 @@ class AddPostFragment : Fragment() {
     }
 
     private fun savePost(title: String, description: String, uri: String) {
-        val post = Post(title, description, userId ?: "", uri)
+        val uid = UUID.randomUUID().toString()
+        val post = Post(uid, title, description, userId ?: "", uri)
         Model.instance.addPost(post) {
             Toast.makeText(context, "Post saved successfully", Toast.LENGTH_SHORT).show()
             Navigation.findNavController(binding.root)
