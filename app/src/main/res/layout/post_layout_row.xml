@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="#FAFFC0">
+    android:background="#DEDEDE">
 
     <!-- Post Owner -->
 

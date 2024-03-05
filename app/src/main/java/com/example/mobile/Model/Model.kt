@@ -87,4 +87,22 @@ class Model private constructor() {
             database.postDao().deleteByUid(post.uid)
         }
     }
+
+    fun updatePostByUid(post: Post, callback: () -> Unit) {
+        firebaseModel.updatePostByUid(post, callback)
+        executor.execute {
+            database.postDao().updatePost(
+                post.uid,
+                post.title,
+                post.description,
+                post.imageUri,
+                post.owner,
+                System.currentTimeMillis()
+            )
+        }
+    }
+
+    fun getPostById(uid: String, callback: (Post?) -> Unit) {
+        firebaseModel.getPostById(uid, callback)
+    }
 }

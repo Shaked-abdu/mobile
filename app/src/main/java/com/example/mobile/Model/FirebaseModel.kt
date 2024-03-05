@@ -49,10 +49,9 @@ class FirebaseModel {
 
     fun addPost(post: Post, callback: () -> Unit) {
         val db = Firebase.firestore
-
-
         db.collection(POSTS_COLLECTION_PATH)
-            .add(post.json)
+            .document(post.uid)
+            .set(post.json)
             .addOnSuccessListener {
                 callback()
             }
@@ -105,6 +104,32 @@ class FirebaseModel {
                     document.reference.delete()
                 }
                 callback()
+            }
+    }
+
+    fun updatePostByUid(post: Post, callback: () -> Unit) {
+        addPost(post, callback)
+    }
+
+    fun getPostById(uid: String, callback: (Post?) -> Unit) {
+        db.collection(POSTS_COLLECTION_PATH)
+            .whereEqualTo(Post.UID_NAME, uid)
+            .get()
+            .addOnCompleteListener {
+                when (it.isSuccessful) {
+                    true -> {
+                        val posts: MutableList<Post> = mutableListOf()
+                        for (json in it.result) {
+                            val post = Post.fromJson(json.data)
+                            posts.add(post)
+                        }
+                        callback(posts.firstOrNull())
+                    }
+
+                    false -> {
+                        callback(null)
+                    }
+                }
             }
     }
 }

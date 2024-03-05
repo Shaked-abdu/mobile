@@ -114,42 +114,46 @@ class ProfileFragment : Fragment() {
                 "Nothing to update.",
                 Toast.LENGTH_SHORT
             ).show()
-        } else if (firstName.equals(user!!.firstName).not() || lastName.equals(user!!.lastName)
-                .not()
-        ) {
-            user = User(userId!!, user!!.email, user!!.imageUri, firstName, lastName)
-            Model.instance.updateUserById(user!!) {
-                Toast.makeText(
-                    context,
-                    "Profile Updated Successfully.",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
         } else {
-            imageUri?.let {
-                storageModel.uploadFile(it,
-                    onComplete = { uri ->
-                        user = User(userId!!, user!!.email, uri, user!!.firstName, user!!.lastName)
-                        Model.instance.updateUserById(user!!) {
+            if (firstName.equals(user!!.firstName).not() || lastName.equals(user!!.lastName)
+                    .not()
+            ) {
+                user = User(userId!!, user!!.email, user!!.imageUri, firstName, lastName)
+                Model.instance.updateUserById(user!!) {
+                    Toast.makeText(
+                        context,
+                        "Profile Updated Successfully.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+            if (imageUri != null) {
+                imageUri?.let {
+                    storageModel.uploadFile(it,
+                        onComplete = { uri ->
+                            user =
+                                User(userId!!, user!!.email, uri, user!!.firstName, user!!.lastName)
+                            Model.instance.updateUserById(user!!) {
+                                Toast.makeText(
+                                    context,
+                                    "Image Uploaded Successfully.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            imageUri = null
+                        },
+                        onFailure = { message ->
+
                             Toast.makeText(
                                 context,
-                                "Image Uploaded Successfully.",
+                                message,
                                 Toast.LENGTH_SHORT
                             ).show()
+                            imageUri = null
+
                         }
-                        imageUri = null
-                    },
-                    onFailure = { message ->
-
-                        Toast.makeText(
-                            context,
-                            message,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        imageUri = null
-
-                    }
-                )
+                    )
+                }
             }
         }
     }

@@ -6,9 +6,11 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobile.Model.Model
 import com.example.mobile.Model.Post
+import com.example.mobile.Modules.Posts.PostsFragmentDirections
 import com.example.mobile.Modules.Posts.PostsRecyclerViewActivity
 import com.example.mobile.R
 import com.example.mobile.base.MyApplication
@@ -94,11 +96,11 @@ class PostsViewHolder(
     }
 
     fun edit(view: View) {
-
+        val action = PostsFragmentDirections.actionPostsFragmentToEditPostFragment(post?.uid!!)
+        Navigation.findNavController(view).navigate(action)
     }
 
     fun delete(view: View) {
-        Log.i("TAG", "Delete post called")
         Model.instance.deletePost(post!!) {
             Log.i("TAG", "Post deleted")
         }
