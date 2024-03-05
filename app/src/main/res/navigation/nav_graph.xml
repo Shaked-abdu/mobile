@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_postsFragment_to_weatherFragment"
             app:destination="@id/weatherFragment" />
+        <action
+            android:id="@+id/action_postsFragment_to_editPostFragment"
+            app:destination="@id/editPostFragment" />
     </fragment>
     <fragment
         android:id="@+id/blueFragment"
@@ -32,6 +35,16 @@
             android:name="TITLE"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/editPostFragment"
+        android:name="com.example.mobile.Modules.Posts.EditPostFragment"
+        android:label="Edit post"
+        tools:layout="@layout/fragment_edit_post">
+        <argument
+            android:name="POSTUID"
+            app:argType="string" />
+    </fragment>
+
     <fragment
         android:id="@+id/addPostFragment"
         android:name="com.example.mobile.Modules.AddPost.AddPostFragment"

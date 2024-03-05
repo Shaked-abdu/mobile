@@ -6,6 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.example.mobile.Model.Post
 
 @Dao
@@ -18,4 +19,24 @@ interface PostDao {
 
     @Delete
     fun delete(post: Post)
+
+    @Query("DELETE FROM Post")
+    fun deleteAll()
+
+    @Query("DELETE FROM Post WHERE uid = :uid")
+    fun deleteByUid(uid: String)
+
+    @Query("SELECT * FROM Post WHERE owner = :owner")
+    fun getByOwner(owner: String): LiveData<MutableList<Post>>
+
+    @Query("UPDATE Post SET title = :title, description = :description, imageUri = :imageUri, owner = :owner, lastUpdated = :lastUpdated WHERE uid = :uid")
+    fun updatePost(
+        uid: String,
+        title: String,
+        description: String,
+        imageUri: String,
+        owner: String,
+        lastUpdated: Long
+    )
+
 }
