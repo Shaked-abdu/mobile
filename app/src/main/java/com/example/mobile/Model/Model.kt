@@ -43,7 +43,7 @@ class Model private constructor() {
 
     fun getMyPosts(user: String): LiveData<MutableList<Post>> {
         refreshAllPosts()
-        return posts ?: database.postDao().getMyPostsList(user)
+        return database.postDao().getMyPostsList(user)
 
     }
 
