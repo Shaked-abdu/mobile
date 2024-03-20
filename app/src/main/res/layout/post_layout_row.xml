@@ -2,6 +2,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -25,10 +26,10 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/postOwner"
+                android:id="@+id/tv_postOwner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Post Owner"
+                android:text="@string/post_owner"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -36,11 +37,11 @@
 
             <!-- Post Title -->
             <TextView
-                android:id="@+id/postTitle"
+                android:id="@+id/tv_postTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Post Title"
+                android:text="@string/post_title"
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -56,6 +57,7 @@
                 android:textSize="16sp" />
 
             <!-- Post Image with round corners and ProgressBar -->
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
@@ -96,15 +98,16 @@
                     android:layout_height="20dp"
                     android:layout_marginStart="300dp"
                     android:src="@drawable/editing"
-                    android:visibility="gone"/>
-"
+                    android:visibility="visible" />
+                "
+
                 <ImageView
                     android:id="@+id/ivDeletePost"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginStart="2dp"
                     android:src="@drawable/bin"
-                    android:visibility="gone"/>
+                    android:visibility="visible" />
 
             </LinearLayout>
 

@@ -5,5 +5,7 @@
     <string name="wave_height">Wave Height: %1$s</string>
     <string name="wave_direction">Wave Direction: %1$s</string>
     <string name="wave_period">Wave Period: %1$s</string>
+    <string name="post_owner">Post Owner</string>
+    <string name="post_title">Post Title</string>
 
 </resources>

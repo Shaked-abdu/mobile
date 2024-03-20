@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Linear">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">#295FEC</item>
+    </style>
+
+    <style name="tv_titlePostClicked">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">64dp</item>
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:autoText">true</item>
+        <item name="android:contentDescription">@string/post_title</item>
+        <item name="android:contextClickable">false</item>
+        <item name="android:elegantTextHeight">false</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+</resources>
