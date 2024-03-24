@@ -14,7 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.Navigation
-import com.example.mobile.BlueFragmentArgs
+import com.example.mobile.Modules.Posts.PostClickedFragment
 import com.example.mobile.Model.Model
 import com.example.mobile.Model.Post
 import com.example.mobile.Model.StorageModel
@@ -23,6 +23,7 @@ import com.example.mobile.R
 import com.example.mobile.databinding.FragmentEditPostBinding
 import com.example.mobile.databinding.FragmentProfileBinding
 import com.squareup.picasso.Picasso
+
 
 class EditPostFragment : Fragment() {
     private var _binding: FragmentEditPostBinding? = null
@@ -78,9 +79,6 @@ class EditPostFragment : Fragment() {
                     }
                 })
         }
-
-
-
         return view
     }
 
@@ -91,7 +89,7 @@ class EditPostFragment : Fragment() {
         if (title.equals(post!!.title) && description.equals(post!!.description) && imageUri == null) {
 
             Toast.makeText(
-                context,
+                this.context,
                 "Nothing to update.",
                 Toast.LENGTH_SHORT
             ).show()

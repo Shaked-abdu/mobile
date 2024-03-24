@@ -11,8 +11,8 @@
         android:label="Posts List"
         tools:layout="@layout/fragment_posts">
         <action
-            android:id="@+id/action_postsFragment_to_blueFragment"
-            app:destination="@id/blueFragment" />
+            android:id="@+id/action_postsFragment_to_ClickedPostFragment"
+            app:destination="@id/pv_postClicked" />
         <action
             android:id="@+id/action_postsFragment_to_addPostFragment"
             app:destination="@id/addPostFragment" />
@@ -27,12 +27,12 @@
             app:destination="@id/editPostFragment" />
     </fragment>
     <fragment
-        android:id="@+id/blueFragment"
-        android:name="com.example.mobile.BlueFragment"
-        android:label="Blue Fragment"
-        tools:layout="@layout/fragment_blue">
+        android:id="@+id/pv_postClicked"
+        android:name="com.example.mobile.Modules.Posts.PostClickedFragment"
+        android:label="Clicked Post"
+        tools:layout="@layout/fragment_post_clicked">
         <argument
-            android:name="TITLE"
+            android:name="POSTUID"
             app:argType="string" />
     </fragment>
     <fragment

@@ -15,7 +15,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.Navigation
-import com.example.mobile.BlueFragmentArgs
+import com.example.mobile.Modules.Posts.PostClickedFragment
 import com.example.mobile.Model.Model
 import com.example.mobile.Model.Post
 import com.example.mobile.Model.StorageModel

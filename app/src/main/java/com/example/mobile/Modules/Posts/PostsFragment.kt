@@ -1,41 +1,53 @@
 package com.example.mobile.Modules.Posts
 
 import android.content.Context
-import android.icu.text.CaseMap.Title
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageButton
 import android.widget.ProgressBar
-import androidx.lifecycle.ViewModel
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.material3.AlertDialogDefaults
+import androidx.compose.material3.BasicAlertDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigation
-import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobile.Model.Model
 import com.example.mobile.Model.Post
 import com.example.mobile.Modules.Posts.Adapter.PostsRecyclerAdapter
-import com.example.mobile.R
 import com.example.mobile.base.MyApplication
 import com.example.mobile.databinding.FragmentPostsBinding
-import com.google.firebase.auth.FirebaseAuth
-import org.checkerframework.checker.units.qual.Current
-import kotlin.concurrent.thread
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-class PostsFragment : Fragment() {
+
+open class PostsFragment : Fragment() {
     var postsRecyclerView: RecyclerView? = null
     var adapter: PostsRecyclerAdapter? = null
     var adapterMyPosts: PostsRecyclerAdapter? = null
     var progressBar: ProgressBar? = null
 
-    val showMyPostsButton : Button? = null
+    val showMyPostsButton: Button? = null
     private var _binding: FragmentPostsBinding? = null
     private val binding get() = _binding!!
 
@@ -72,12 +84,13 @@ class PostsFragment : Fragment() {
             override fun onItemClick(post: Post?, position: Int) {
                 Log.i("TAG", "Item clicked: $position")
                 val post = viewModel.posts?.value?.get(position)
+
                 post?.let {
-                    val action = PostsFragmentDirections.actionPostsFragmentToBlueFragment(it.title)
+                    val action =
+                        PostsFragmentDirections.actionPostsFragmentToClickedPostFragment(it.uid)
                     Navigation.findNavController(view).navigate(action)
                 }
             }
-
 
             override fun onPostClicked(post: Post?) {
                 Log.i("TAG", "Post clicked: $post")
@@ -85,7 +98,9 @@ class PostsFragment : Fragment() {
         }
 
 
+
         postsRecyclerView?.adapter = adapter
+
 
         viewModel.posts?.observe(viewLifecycleOwner) {
             adapter?.posts = it
@@ -96,9 +111,11 @@ class PostsFragment : Fragment() {
             adapterMyPosts?.posts = it
             adapterMyPosts?.notifyDataSetChanged()
             progressBar?.visibility = View.GONE
+
         }
 
         binding.pullToRefresh.setOnRefreshListener {
+
             reloadData()
 
         }
@@ -106,10 +123,6 @@ class PostsFragment : Fragment() {
         Model.instance.postsListLoadingState.observe(viewLifecycleOwner) { state ->
             binding.pullToRefresh.isRefreshing = state == Model.LoadingState.LOADING
         }
-
-
-
-
         return view
     }
 
@@ -136,33 +149,33 @@ class PostsFragment : Fragment() {
             ?.getString("userUid", null) ?: ""
     }
 
+
     private fun showAllClicked(view: View) {
 
-            showAll = !showAll
-            binding.btnPostsShowAll.text = if (showAll) "My Reports" else "All Reports"
+        progressBar?.visibility = View.VISIBLE
 
-        if (!showAll){
+        showAll = !showAll
+        binding.btnPostsShowAll.text = if (showAll) "My Reports" else "All Reports"
+
+        if (!showAll) {
 
             viewModel.myPosts = Model.instance.getMyPosts(userId)
             adapterMyPosts = PostsRecyclerAdapter(viewModel.myPosts?.value)
             postsRecyclerView?.adapter = adapterMyPosts
-            Thread.sleep(1000)
 
-        }else {
+        } else {
             viewModel.posts = Model.instance.getAllPosts()
             adapter = PostsRecyclerAdapter(viewModel.posts?.value)
             postsRecyclerView?.adapter = adapter
-            Thread.sleep(1000)
         }
-            //  postsRecyclerView = binding.rvPostsFragmentList
-            //  postsRecyclerView?.setHasFixedSize(true)
-            //  postsRecyclerView?.layoutManager = LinearLayoutManager(context)
 
+        progressBar?.visibility = View.GONE
     }
 
+}
 
-    //progressBar?.visibility = View.VISIBLE
-    //progressBar?.visibility = View.GONE
+    //
+    //
 
 //    override fun onOptionsItemSelected(item: MenuItem): Boolean {
 //        return when (item.itemId) {
@@ -175,4 +188,3 @@ class PostsFragment : Fragment() {
 //            else -> super.onOptionsItemSelected(item)
 //        }
 //    }
-}
